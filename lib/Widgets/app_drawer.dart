@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/Screens/orders_screen.dart';
+import 'package:shop_app/Screens/user_product_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key key}) : super(key: key);
@@ -27,6 +28,15 @@ class CustomDrawer extends StatelessWidget {
             title: Text("Your Orders"),
             onTap: () {
               Navigator.pushReplacementNamed(context, OrderScreen.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.edit),
+            title: Text("Manage Products"),
+            onTap: () {
+              Navigator.pushReplacementNamed(
+                  context, UserProductScreen.routeName);
             },
           ),
         ],

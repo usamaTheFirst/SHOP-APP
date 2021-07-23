@@ -19,6 +19,25 @@ class CartItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
     return Dismissible(
+      confirmDismiss: (direction) => showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("Are you sure?"),
+          content: Text("Do you want to remove the item from the cart"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text("No")),
+            FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: Text('Yes'))
+          ],
+        ),
+      ),
       direction: DismissDirection.endToStart,
       background: Container(
         alignment: Alignment.centerRight,
