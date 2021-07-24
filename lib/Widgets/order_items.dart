@@ -17,7 +17,7 @@ class OrderItemWidget extends StatelessWidget {
         children: [
           ExpansionTile(
             title: Text(
-              '\$${orderItem.amount}',
+              '\$${orderItem.amount.toStringAsFixed(2)}',
               style: Theme.of(context).textTheme.headline6,
             ),
             subtitle: Text(

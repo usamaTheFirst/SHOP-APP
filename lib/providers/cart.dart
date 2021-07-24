@@ -53,7 +53,7 @@ class Cart with ChangeNotifier {
   }
 
   void deleteItem(String id) {
-    print(id);
+    // print(id);
     _items.remove(id);
     notifyListeners();
   }
