@@ -58,6 +58,9 @@ class Products with ChangeNotifier {
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extractedData == null) {
+        return null;
+      }
       final List<Product> loadedProduct = [];
       extractedData.forEach((key, value) {
         loadedProduct.insert(
@@ -134,7 +137,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteItem(String id) async {
     final URL_STRING =
-        'https://shop-app-80dd1-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id';
+        'https://shop-app-80dd1-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json';
     var url = Uri.parse(URL_STRING);
 
     final existingItemIndex = _items.indexWhere((element) => element.id == id);

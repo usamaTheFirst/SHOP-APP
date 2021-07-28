@@ -30,22 +30,28 @@ class OrderItemWidget extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top: 10),
                 padding: EdgeInsets.symmetric(horizontal: 10),
-                height: min(orderItem.products.length * 20.0 + 10, 180),
+                height: min(orderItem.products.length * 20.0 + 30, 180),
                 child: ListView.builder(
                   itemCount: orderItem.products.length,
                   itemBuilder: (context, index) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    return Column(
                       children: [
-                        Text(
-                          orderItem.products[index].title,
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              orderItem.products[index].title,
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w300),
+                            ),
+                            Text(
+                              "${orderItem.products[index].quantity}x \$${orderItem.products[index].price}",
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.grey),
+                            )
+                          ],
                         ),
-                        Text(
-                          "${orderItem.products[index].quantity}x \$${orderItem.products[index].price}",
-                          style: TextStyle(fontSize: 18, color: Colors.grey),
-                        )
+                        Divider(),
                       ],
                     );
                   },
