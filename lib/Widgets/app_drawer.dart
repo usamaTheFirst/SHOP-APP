@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/Screens/orders_screen.dart';
 import 'package:shop_app/Screens/user_product_screen.dart';
+import 'package:shop_app/providers/auth.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key key}) : super(key: key);
@@ -37,6 +39,16 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacementNamed(
                   context, UserProductScreen.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.exit_to_app),
+            title: Text("Log out"),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).pushNamed('/');
+              Provider.of<Auth>(context, listen: false).logout();
             },
           ),
         ],

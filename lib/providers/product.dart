@@ -14,16 +14,16 @@ class Product with ChangeNotifier {
       @required this.imageUrl,
       @required this.price,
       this.isFavorite = false});
-  toggleFavoriteStatus() async {
+
+  Future<void> toggleFavoriteStatus(String token, String userId) async {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
-    final URL_STRING =
-        'https://shop-app-80dd1-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json';
-    var url = Uri.parse(URL_STRING);
+    final urlString =
+        'https://shop-app-80dd1-default-rtdb.asia-southeast1.firebasedatabase.app/userFavorites/$userId/$id.json?auth=$token';
+    var url = Uri.parse(urlString);
 
-    final response =
-        await http.patch(url, body: json.encode({'isFavorite': isFavorite}));
+    final response = await http.put(url, body: json.encode(isFavorite));
     if (response.statusCode >= 400) {
       isFavorite = oldStatus;
       notifyListeners();

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shop_app/Widgets/app_drawer.dart';
 import 'package:shop_app/Widgets/order_items.dart';
+import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/providers/orders.dart';
 
 class OrderScreen extends StatelessWidget {
@@ -12,7 +13,8 @@ class OrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Buildig orders');
+    final authData = Provider.of<Auth>(context, listen: false);
+    // print('Buildig orders');
     // final orders = Provider.of<Orders>(context);
     return Scaffold(
       appBar: AppBar(
