@@ -22,34 +22,38 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   bool initCheck = true;
   bool _showOnlFavorite = false;
   bool loader = false;
+  // @override
+  // void initState() {
+  //   ///This wont work
+  //   ///Context is not available here
+  //   ///There are two ways to get around it
+  //   // Provider.of<Products>(context).fetchFromServer();
+  //
+  //   ///First one
+  //
+  //   // Future.delayed(Duration.zero).then((value) {
+  //   //   Provider.of<Products>(context).fetchFromServer();
+  //   // });
+  //
+  //   ///This method is just a hack and not advisable
+  //   super.initState();
+  // }
+
   @override
-  void initState() {
-    ///This wont work
-    ///Context is not available here
-    ///There are two ways to get around it
-    // Provider.of<Products>(context).fetchFromServer();
-
-    ///First one
-
-    // Future.delayed(Duration.zero).then((value) {
-    //   Provider.of<Products>(context).fetchFromServer();
-    // });
-
-    ///This method is just a hack and not advisable
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     if (initCheck) {
-      setState(() {
-        loader = true;
-      });
-
-      Provider.of<Products>(context).fetchFromServer().then((value) {
+      if (mounted)
         setState(() {
-          loader = false;
+          loader = true;
         });
+
+      await Provider.of<Products>(context, listen: false)
+          .fetchFromServer()
+          .then((value) {
+        if (mounted)
+          setState(() {
+            loader = false;
+          });
       });
     }
 
@@ -59,8 +63,6 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<Cart>(context, listen: false);
-
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -78,13 +80,14 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           PopupMenuButton(
             // initialValue: FilterOptions.All,
             onSelected: (selectedValue) {
-              setState(() {
-                if (selectedValue == FilterOptions.Favorites) {
-                  _showOnlFavorite = true;
-                } else {
-                  _showOnlFavorite = false;
-                }
-              });
+              if (mounted)
+                setState(() {
+                  if (selectedValue == FilterOptions.Favorites) {
+                    _showOnlFavorite = true;
+                  } else {
+                    _showOnlFavorite = false;
+                  }
+                });
             },
             itemBuilder: (_) {
               return [

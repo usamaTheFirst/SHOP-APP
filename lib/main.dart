@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider.value(
             value: Auth(),
           ),
+          ChangeNotifierProvider.value(value: Products('', [], '')),
           ChangeNotifierProxyProvider<Auth, Products>(
-              create: (_) => Products('', [], ''),
               update: (context, auth, previousProduct) => Products(
                   auth.token,
                   previousProduct == null ? [] : previousProduct.items,
@@ -48,10 +48,15 @@ class MyApp extends StatelessWidget {
                 ? ProductsOverviewScreen()
                 : FutureBuilder(
                     future: auth.tryAutoLogIn(),
-                    builder: (ctx, authResult) =>
-                        authResult.connectionState == ConnectionState.waiting
-                            ? LoadingScreen()
-                            : AuthScreen()),
+                    builder: (ctx, authResult) {
+                      if (authResult.connectionState ==
+                          ConnectionState.waiting) {
+                        return LoadingScreen();
+                      }
+                      return authResult.data
+                          ? ProductsOverviewScreen
+                          : AuthScreen();
+                    }),
             routes: {
               ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
               CartScreen.routeName: (_) => CartScreen(),

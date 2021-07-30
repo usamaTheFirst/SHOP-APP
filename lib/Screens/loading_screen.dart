@@ -8,7 +8,7 @@ class LoadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SpinKitSquareCircle(
+      body: SpinKitCircle(
         color: Theme.of(context).accentColor,
         size: 100,
       ),

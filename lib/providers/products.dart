@@ -6,6 +6,20 @@ import 'package:shop_app/providers/product.dart';
 import 'package:http/http.dart' as http;
 
 class Products with ChangeNotifier {
+  bool _disposed = false;
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_disposed) {
+      super.notifyListeners();
+    }
+  }
+
   final String token;
   final String userId;
   List<Product> _items = [];
@@ -55,12 +69,11 @@ class Products with ChangeNotifier {
                 price: value['price']));
       });
       _items = loadedProduct;
+      notifyListeners();
     } catch (error) {
       print(error);
       print('ERROR has occured');
     }
-
-    notifyListeners();
   }
 
   Future<void> addProduct(Product product) async {
